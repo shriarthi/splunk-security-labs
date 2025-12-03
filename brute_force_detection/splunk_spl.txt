@@ -1,0 +1,4 @@
+index=auth action=failed_login
+| stats count as failed_attempts, earliest(_time) as first_attempt, latest(_time) as last_attempt by user, src_ip
+| where failed_attempts > 5
+| sort - failed_attempts

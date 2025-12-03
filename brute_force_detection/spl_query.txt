@@ -1,1 +1,13 @@
+-- Detect multiple failed login attempts from the same IP
+SELECT 
+    username,
+    source_ip,
+    COUNT(*) AS failed_attempts,
+    MIN(timestamp) AS first_attempt,
+    MAX(timestamp) AS last_attempt
+FROM authentication_logs
+WHERE action = 'FAILED_LOGIN'
+GROUP BY username, source_ip
+HAVING COUNT(*) > 5
+ORDER BY failed_attempts DESC;
 

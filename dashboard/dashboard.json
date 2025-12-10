@@ -1,0 +1,128 @@
+{
+  "description": "Unified Web + Security Monitoring Dashboard",
+  "label": "Security & Web Analytics Dashboard",
+  "version": 2,
+  "definition": {
+    "visualizations": {
+      "panel_total_requests": {
+        "type": "singlevalue",
+        "options": {
+          "title": "Total Web Requests"
+        },
+        "dataSources": {
+          "primary": "search_total_requests"
+        }
+      },
+
+      "panel_status_distribution": {
+        "type": "pie",
+        "options": {
+          "title": "HTTP Status Distribution"
+        },
+        "dataSources": {
+          "primary": "search_status_distribution"
+        }
+      },
+
+      "panel_top_ips": {
+        "type": "table",
+        "options": {
+          "title": "Top Client IP Addresses"
+        },
+        "dataSources": {
+          "primary": "search_top_ips"
+        }
+      },
+
+      "panel_top_uris": {
+        "type": "table",
+        "options": {
+          "title": "Top Requested URIs"
+        },
+        "dataSources": {
+          "primary": "search_top_uris"
+        }
+      },
+
+      "panel_failed_logins": {
+        "type": "table",
+        "options": {
+          "title": "Failed Logins (Security Logs)"
+        },
+        "dataSources": {
+          "primary": "search_failed_logins"
+        }
+      },
+
+      "panel_bruteforce": {
+        "type": "table",
+        "options": {
+          "title": "Possible SSH Brute Force Attempts"
+        },
+        "dataSources": {
+          "primary": "search_bruteforce"
+        }
+      }
+    },
+
+    "dataSources": {
+      "search_total_requests": {
+        "type": "ds.search",
+        "options": {
+          "query": "index=weblogs | stats count AS total_requests"
+        }
+      },
+
+      "search_status_distribution": {
+        "type": "ds.search",
+        "options": {
+          "query": "index=weblogs | stats count BY status"
+        }
+      },
+
+      "search_top_ips": {
+        "type": "ds.search",
+        "options": {
+          "query": "index=weblogs | top limit=10 clientip"
+        }
+      },
+
+      "search_top_uris": {
+        "type": "ds.search",
+        "options": {
+          "query": "index=weblogs | top limit=10 request"
+        }
+      },
+
+      "search_failed_logins": {
+        "type": "ds.search",
+        "options": {
+          "query": "index=security message=\"Failed password\" | stats count BY host, process, message"
+        }
+      },
+
+      "search_bruteforce": {
+        "type": "ds.search",
+        "options": {
+          "query": "index=security message=\"Failed password\" | stats count BY clientip | where count > 5"
+        }
+      }
+    },
+
+    "layout": {
+      "type": "grid",
+      "options": {
+        "columns": 2,
+        "rows": 6
+      },
+      "structure": [
+        { "item": "panel_total_requests", "position": { "row": 1, "col": 1, "width": 2, "height": 1 } },
+        { "item": "panel_status_distribution", "position": { "row": 2, "col": 1, "width": 1, "height": 1 } },
+        { "item": "panel_top_ips", "position": { "row": 2, "col": 2, "width": 1, "height": 1 } },
+        { "item": "panel_top_uris", "position": { "row": 3, "col": 1, "width": 2, "height": 1 } },
+        { "item": "panel_failed_logins", "position": { "row": 4, "col": 1, "width": 2, "height": 1 } },
+        { "item": "panel_bruteforce", "position": { "row": 5, "col": 1, "width": 2, "height": 1 } }
+      ]
+    }
+  }
+}

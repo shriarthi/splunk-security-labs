@@ -1,0 +1,13 @@
+Dec 10 14:32:11 server1 sshd[2101]: Accepted password for admin from 192.168.1.23 port 51512 ssh2
+Dec 10 14:32:15 server1 sshd[2103]: Failed password for invalid user testuser from 203.0.113.15 port 49221 ssh2
+Dec 10 14:32:18 server1 sshd[2103]: Failed password for invalid user testuser from 203.0.113.15 port 49221 ssh2
+Dec 10 14:32:22 server1 sudo:   admin : TTY=pts/0 ; PWD=/home/admin ; USER=root ; COMMAND=/bin/cat /etc/passwd
+Dec 10 14:32:45 server1 sshd[2120]: Accepted publickey for deploy from 10.0.0.45 port 51120 ssh2
+Dec 10 14:33:01 server1 sshd[2125]: Failed password for root from 45.88.23.11 port 60112 ssh2
+Dec 10 14:33:19 server1 sshd[2125]: Failed password for root from 45.88.23.11 port 60112 ssh2
+Dec 10 14:33:41 server1 sshd[2132]: Failed password for root from 45.88.23.11 port 60112 ssh2
+Dec 10 14:34:02 server1 systemd-logind[655]: New session 5523 of user admin.
+Dec 10 14:34:15 server1 sudo:   admin : TTY=pts/0 ; PWD=/var/www ; USER=root ; COMMAND=/bin/systemctl restart apache2
+Dec 10 14:34:45 server1 sshd[2140]: Connection closed by 203.0.113.15 port 49221
+Dec 10 14:35:13 server1 kernel: [ 3442.232443 ] audit: type=1400 audit(1702216513.345:122): apparmor="DENIED" operation="open" profile="/usr/sbin/sshd" pid=2132 comm="sshd" path="/root/.ssh" name="authorized_keys" requested_mask="r" denied_mask="r"
+Dec 10 14:35:18 server1 sshd[2142]: Failed password for invalid user admin2 from 198.51.100.25 port 40211 ssh2

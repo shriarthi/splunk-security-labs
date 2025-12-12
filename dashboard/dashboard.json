@@ -1,128 +1,257 @@
 {
-  "description": "Unified Web + Security Monitoring Dashboard",
-  "label": "Security & Web Analytics Dashboard",
-  "version": 2,
-  "definition": {
-    "visualizations": {
-      "panel_total_requests": {
-        "type": "singlevalue",
-        "options": {
-          "title": "Total Web Requests"
-        },
-        "dataSources": {
-          "primary": "search_total_requests"
-        }
+  "visualizations": {
+    "viz_lMvhC6Lu": {
+      "type": "splunk.table",
+      "options": {},
+      "dataSources": {
+        "primary": "ds_t6pINfXa"
       },
-
-      "panel_status_distribution": {
-        "type": "pie",
-        "options": {
-          "title": "HTTP Status Distribution"
-        },
-        "dataSources": {
-          "primary": "search_status_distribution"
-        }
-      },
-
-      "panel_top_ips": {
-        "type": "table",
-        "options": {
-          "title": "Top Client IP Addresses"
-        },
-        "dataSources": {
-          "primary": "search_top_ips"
-        }
-      },
-
-      "panel_top_uris": {
-        "type": "table",
-        "options": {
-          "title": "Top Requested URIs"
-        },
-        "dataSources": {
-          "primary": "search_top_uris"
-        }
-      },
-
-      "panel_failed_logins": {
-        "type": "table",
-        "options": {
-          "title": "Failed Logins (Security Logs)"
-        },
-        "dataSources": {
-          "primary": "search_failed_logins"
-        }
-      },
-
-      "panel_bruteforce": {
-        "type": "table",
-        "options": {
-          "title": "Possible SSH Brute Force Attempts"
-        },
-        "dataSources": {
-          "primary": "search_bruteforce"
-        }
+      "context": {},
+      "containerOptions": {},
+      "showProgressBar": true,
+      "showLastUpdated": false
+    },
+    "viz_XNVrRZ2P": {
+      "type": "splunk.bar",
+      "options": {},
+      "dataSources": {
+        "primary": "ds_UBVpAKpd"
       }
     },
-
-    "dataSources": {
-      "search_total_requests": {
-        "type": "ds.search",
-        "options": {
-          "query": "index=weblogs | stats count AS total_requests"
-        }
-      },
-
-      "search_status_distribution": {
-        "type": "ds.search",
-        "options": {
-          "query": "index=weblogs | stats count BY status"
-        }
-      },
-
-      "search_top_ips": {
-        "type": "ds.search",
-        "options": {
-          "query": "index=weblogs | top limit=10 clientip"
-        }
-      },
-
-      "search_top_uris": {
-        "type": "ds.search",
-        "options": {
-          "query": "index=weblogs | top limit=10 request"
-        }
-      },
-
-      "search_failed_logins": {
-        "type": "ds.search",
-        "options": {
-          "query": "index=security message=\"Failed password\" | stats count BY host, process, message"
-        }
-      },
-
-      "search_bruteforce": {
-        "type": "ds.search",
-        "options": {
-          "query": "index=security message=\"Failed password\" | stats count BY clientip | where count > 5"
-        }
+    "viz_DbsFVoau": {
+      "type": "splunk.pie",
+      "options": {},
+      "dataSources": {
+        "primary": "ds_Fd2L6HBZ"
       }
     },
-
-    "layout": {
-      "type": "grid",
-      "options": {
-        "columns": 2,
-        "rows": 6
+    "viz_AMYl4HlJ": {
+      "type": "splunk.table",
+      "options": {},
+      "dataSources": {
+        "primary": "ds_kuVbjRRU"
+      }
+    },
+    "viz_NatqGZAB": {
+      "type": "splunk.column",
+      "options": {},
+      "dataSources": {
+        "primary": "ds_xcw4rou1"
+      }
+    },
+    "viz_NTwDaEmI": {
+      "type": "splunk.pie",
+      "options": {},
+      "dataSources": {
+        "primary": "ds_MgmeZl1a"
       },
-      "structure": [
-        { "item": "panel_total_requests", "position": { "row": 1, "col": 1, "width": 2, "height": 1 } },
-        { "item": "panel_status_distribution", "position": { "row": 2, "col": 1, "width": 1, "height": 1 } },
-        { "item": "panel_top_ips", "position": { "row": 2, "col": 2, "width": 1, "height": 1 } },
-        { "item": "panel_top_uris", "position": { "row": 3, "col": 1, "width": 2, "height": 1 } },
-        { "item": "panel_failed_logins", "position": { "row": 4, "col": 1, "width": 2, "height": 1 } },
-        { "item": "panel_bruteforce", "position": { "row": 5, "col": 1, "width": 2, "height": 1 } }
-      ]
+      "context": {},
+      "containerOptions": {},
+      "showProgressBar": true,
+      "showLastUpdated": false
     }
-  }
+  },
+  "dataSources": {
+    "ds_t6pINfXa": {
+      "type": "ds.search",
+      "options": {
+        "query": "index=web_logs sourcetype=custom_access_combined host=\"server1\" source=\"sample_weblogs.log\"\n| rex field=_raw \"^(?<clientip>\\S+)\"\n| top limit=10 clientip\n"
+      },
+      "name": "Search_1"
+    },
+    "ds_UBVpAKpd": {
+      "type": "ds.search",
+      "options": {
+        "query": "index=web_logs sourcetype=custom_access_combined host=\"server1\" source=\"sample_weblogs.log\"\n| rex field=_raw \"\\\"\\w+\\s+(?<uri_path>[^\\s]+)\"\n| top limit=10 uri_path\n"
+      },
+      "name": "Search_2"
+    },
+    "ds_Fd2L6HBZ": {
+      "type": "ds.search",
+      "options": {
+        "query": "index=web_logs sourcetype=custom_access_combined host=\"server1\" source=\"sample_weblogs.log\"\n| rex field=_raw \"\\\"\\w+\\s+[^\\s]+\\s+HTTP/[^\\\"]+\\\"\\s+(?<status>\\d+)\"\n| stats count by status\n| sort - count\n"
+      },
+      "name": "Search_3"
+    },
+    "ds_kuVbjRRU": {
+      "type": "ds.search",
+      "options": {
+        "query": "index=main sourcetype=custom_linux_secure host=\"server1\" source=\"sample_security.log\" \"Failed password\"\n| rex field=_raw \"from\\s+(?<src_ip>\\d+\\.\\d+\\.\\d+\\.\\d+)\"\n| stats count by src_ip\n| sort - count\n"
+      },
+      "name": "Search_4"
+    },
+    "ds_xcw4rou1": {
+      "type": "ds.search",
+      "options": {
+        "query": "index=main sourcetype=custom_linux_secure host=\"server1\" source=\"sample_security.log\" \"sudo:\"\n| rex field=_raw \"COMMAND=(?<command>.*)\"\n| stats count by command\n| sort - count\n"
+      },
+      "name": "Search_5"
+    },
+    "ds_MgmeZl1a": {
+      "type": "ds.search",
+      "options": {
+        "query": "index=main sourcetype=custom_linux_secure host=\"server1\" source=\"sample_security.log\" (\"Failed password\" OR \"Accepted\")\n| eval type=if(like(_raw, \"%Failed%\"), \"Failed\", \"Success\")\n| stats count by type\n"
+      },
+      "name": "Search_6"
+    }
+  },
+  "defaults": {
+    "dataSources": {
+      "ds.search": {
+        "options": {
+          "queryParameters": {
+            "latest": "$global_time.latest$",
+            "earliest": "$global_time.earliest$"
+          }
+        }
+      }
+    },
+    "visualizations": {
+      "global": {
+        "showProgressBar": true
+      }
+    }
+  },
+  "inputs": {
+    "input_global_trp": {
+      "type": "input.timerange",
+      "options": {
+        "token": "global_time",
+        "defaultValue": "-24h@h,now"
+      },
+      "title": "Global Time Range"
+    }
+  },
+  "layout": {
+    "options": {},
+    "globalInputs": [
+      "input_global_trp"
+    ],
+    "tabs": {
+      "items": [
+        {
+          "layoutId": "layout_1",
+          "label": "Top Web Client IPs (Table)"
+        },
+        {
+          "layoutId": "layout_VksdcukC",
+          "label": "Top Web URLs (Bar)"
+        },
+        {
+          "layoutId": "layout_4xMSz8GD",
+          "label": "HTTP Status Codes (Pie)"
+        },
+        {
+          "layoutId": "layout_z1CImKMN",
+          "label": "SSH Login Failures (Table)"
+        },
+        {
+          "layoutId": "layout_oXKFxN4y",
+          "label": "Sudo Command Usage (Column)"
+        },
+        {
+          "layoutId": "layout_kGpT6F2L",
+          "label": "SSH Failed vs Successful (Pie)"
+        }
+      ]
+    },
+    "layoutDefinitions": {
+      "layout_1": {
+        "type": "grid",
+        "structure": [
+          {
+            "item": "viz_lMvhC6Lu",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1440,
+              "h": 400
+            }
+          }
+        ],
+        "options": {
+          "width": 1440,
+          "height": 960
+        }
+      },
+      "layout_VksdcukC": {
+        "type": "grid",
+        "structure": [
+          {
+            "item": "viz_XNVrRZ2P",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1200,
+              "h": 400
+            }
+          }
+        ]
+      },
+      "layout_4xMSz8GD": {
+        "type": "grid",
+        "structure": [
+          {
+            "item": "viz_DbsFVoau",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1200,
+              "h": 400
+            }
+          }
+        ]
+      },
+      "layout_z1CImKMN": {
+        "type": "grid",
+        "structure": [
+          {
+            "item": "viz_AMYl4HlJ",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1200,
+              "h": 400
+            }
+          }
+        ]
+      },
+      "layout_oXKFxN4y": {
+        "type": "grid",
+        "structure": [
+          {
+            "item": "viz_NatqGZAB",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1200,
+              "h": 400
+            }
+          }
+        ]
+      },
+      "layout_kGpT6F2L": {
+        "type": "grid",
+        "structure": [
+          {
+            "item": "viz_NTwDaEmI",
+            "type": "block",
+            "position": {
+              "x": 0,
+              "y": 0,
+              "w": 1200,
+              "h": 400
+            }
+          }
+        ]
+      }
+    }
+  },
+  "description": "",
+  "title": "Enhanced Sample Logs"
 }

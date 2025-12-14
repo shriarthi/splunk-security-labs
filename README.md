@@ -1,6 +1,6 @@
 # splunk-security-labs
 
-This repository contains my Splunk work from TryHackMe labs: sample data, configuration examples, SPL queries, dashboards, and notes. Use this repo to reproduce key parts of the exercises, or as a reference for building Splunk detection/use-case workflows.
+This repository contains my Splunk work: sample data, configuration examples, SPL queries, dashboards, and notes. Use this repo to reproduce key parts of the exercises, or as a reference for building Splunk detection/use-case workflows.
 
 ## What’s included
 - `data/` — sample log files used for ingestion and testing
